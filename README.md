@@ -17,7 +17,7 @@
 	}
 }
 ```
-##### <i>Schema have to be deployed</i>
+ <i>Schema have to be deployed</i>
 ### If data example is valid, you wil get:
 ```
 {
