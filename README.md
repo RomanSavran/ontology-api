@@ -1,12 +1,20 @@
+# DataExample validation and Schmea generation API
+
+You can get more `Schema` examples here:
+https://standards-ontotest.oftrust.net/v2/Schema/DataProductOutput
+
+and `DataExample` examples here: 
+https://standards-ontotest.oftrust.net/v2/DataExample/DataProductOutput
+
 
 # DataExample validation endpoint
+### Prerequirements:
+* `Schema` have to be deployed to https://standards-ontotest.oftrust.net/v2/
 
-```
-/validate
-```
-### Send POST request with DataExample json body 
-```
-{
+### To validate DataExample, Send POST request with `DataExample` json body:
+```bash
+curl -X POST http://127.0.0.1:8000/api/validate -H 'Content-Type: application/json' -d 
+'{
 	"@context": "https://standards-ontotest.oftrust.net/v2/Context/DataProductOutput/",
 	"data": {},
 	"signature": {
@@ -15,9 +23,8 @@
 		"signatureValue": "eyJ0eXAiOiJK...gFWFOEjXk",
 		"type": "RsaSignature2018"
 	}
-}
+}'
 ```
- <i>Schema have to be deployed</i>
 ### If data example is valid, you wil get:
 ```
 {
@@ -33,16 +40,11 @@
     "isValid": "False"
 }
 ```
-<br>
-
-# DataProduct schema generation endpoint
-```
-/schema
-```
-### Send POST request with DataExample json body:
-
-```
-{
+# DataProduct schema generation endpoint:
+### To generate `Schema`, send POST request with `DataExample` json body:
+```bash
+curl -X POST http://127.0.0.1:8000/api/schema -H 'Content-Type: application/json' -d 
+'{
 	"@context": "https://standards-ontotest.oftrust.net/v2/Context/DataProductOutput/",
 	"data": {},
 	"signature": {
@@ -51,9 +53,9 @@
 		"signatureValue": "eyJ0eXAiOiJK...gFWFOEjXk",
 		"type": "RsaSignature2018"
 	}
-}
+}'
 ```
-### If data example is valid, you wil get DataProduct schema:
+### If data example is valid, you wil get DataProduct `Schema`:
 ```
 {
     "$id": "https://standards-ontotest.oftrust.net/v2/Schema/DataProductOutput/",
@@ -118,4 +120,11 @@
     ],
     "type": "object"
 }
+```
+
+# Run with Docker
+```
+docker build --tag ontology-api:1.0 .
+
+docker run --publish 8000:5000 --detach ontology-api:1.0
 ```
