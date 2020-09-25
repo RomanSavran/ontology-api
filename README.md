@@ -122,6 +122,15 @@ curl -X POST http://127.0.0.1:8000/api/schema -H 'Content-Type: application/json
 }
 ```
 
+# Http Status Codes
+### Success 2xx
+- [200](http://httpstatuses.com/200) - **Ok** - The request was fulfilled.
+### Client side errors 4xx
+- [400](http://httpstatuses.com/400) - **Bad Request** - Bad request syntax or unsupported method.
+- [404](http://httpstatuses.com/404) - **Not Found** - Nothing matches the given URI.
+- [415](http://httpstatuses.com/415) - **Unsupported Media Type** - Entity body in unsupported format.
+- [422](http://httpstatuses.com/422) - **Unprocessable Entity** - Information in the request body can't be parsed or understood.
+
 # Run with Docker
 ```
 docker build --tag ontology-api:1.0 .
