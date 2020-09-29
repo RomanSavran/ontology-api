@@ -86,8 +86,9 @@ def validate_json(request):
     if errors:
         return {
             'isValid': 'False',
-            'errors': errors
-        }
+            'errors': errors,
+            'status_code': 422
+        }, 422
 
     return {'isValid': 'True'}
 
