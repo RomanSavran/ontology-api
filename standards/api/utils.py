@@ -8,7 +8,7 @@ from requests.exceptions import HTTPError
 
 from standards import app
 from standards.api.genson import SchemaBuilder
-from standards.api.genson.utils import NestedDict, schema_path_id_generator
+from standards.api.genson.utils import NestedDict, schema_path_id_generator, schema_sorted_first_level, sorted_nested_dict
 from standards.errors import UnprocessableEntityException, BadRequestSyntaxException
 
 
@@ -108,5 +108,7 @@ def schema_generator(request):
 
     nested_dict = NestedDict(deepcopy(schema))
     schema_path_id_generator(schema, nested_dict)
+    nested_dict = schema_sorted_first_level(nested_dict)
+    nested_dict = sorted_nested_dict(nested_dict)
 
     return nested_dict

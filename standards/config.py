@@ -5,6 +5,7 @@ basedir = os.path.abspath(os.path.dirname(__file__))
 
 
 class Config(object):
+    JSON_SORT_KEYS = False
     LOGGING_CONFIG = {
         'version': 1,
         'formatters': {'default': {
