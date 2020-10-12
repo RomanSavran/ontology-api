@@ -94,7 +94,8 @@ class Object(SchemaStrategy):
             schema['patternProperties'] = self._properties_to_schema(
                 self._pattern_properties)
         if self._required or self._include_empty_required:
-            schema['required'] = sorted(self._required)
+            # schema['required'] = sorted(self._required)
+            schema['required'] = []
         return schema
 
     def _properties_to_schema(self, properties):
@@ -110,20 +111,26 @@ class Object(SchemaStrategy):
                     l = _onto_property.build_labels(_onto_property.entity)
                     # If built labels is not empty, take en-us only. Else make sure that "title" is str.
                     if l:
-                        l = l['en-us']
+                        l = l.get('en-us')
                     else:
                         l = ""
 
                     c = _onto_property.build_comments(_onto_property.entity)
                     # If built labels is not empty, take en-us only. Else make sure that "title" is str.
                     if c:
-                        c = c['en-us']
+                        c = c.get('en-us')
                     else:
                         c = ""
                 # Add title to schema
                 # schema_properties[prop]['examples'] = []
             except:
                 print(prop)
+                if prop == "@context":
+                    l = "JSON-LD context url"
+                    c = "JSON-LD context url with terms required to understand data product content."
+                if prop == "@type":
+                    l = "Identity type"
+                    c = "Type of identity."
 
             schema_properties[prop]['title'] = l
             schema_properties[prop]['description'] = c
