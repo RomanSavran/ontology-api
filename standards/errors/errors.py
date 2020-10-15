@@ -1,3 +1,6 @@
+import re
+
+
 class BaseException(Exception):
     status_code = 400
 
@@ -9,9 +12,14 @@ class BaseException(Exception):
         self.payload = payload
 
     def to_dict(self):
-        rv = dict(self.payload or ())
-        rv['message'] = self.message
-        rv['status_code'] = self.status_code
+        rv = dict(error={})
+
+        pattern = re.compile(r'(?<!^)(?=[A-Z])')
+        rv['error']['status'] = self.status_code
+        rv['error']['error'] = pattern.sub('_', self.__class__.__name__).upper()
+        rv['error']['description'] = self.message
+        if self.payload:
+            rv['error']['fields'] = self.payload or ()
         return rv
 
 
@@ -22,8 +30,8 @@ class BadRequestException(BaseException):
 
 
 class UnprocessableEntityException(BaseException):
-    def __init__(self, message="Information in the request body can't be parsed or understood.", status_code=422):
-        super().__init__(message=message, status_code=status_code)
+    def __init__(self, message="Information in the request body can't be parsed or understood.", status_code=422, payload=None):
+        super().__init__(message=message, status_code=status_code, payload=payload)
 
 
 class UnsupportedMediaTypeException(BaseException):

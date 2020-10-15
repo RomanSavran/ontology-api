@@ -34,10 +34,14 @@ curl -X POST http://127.0.0.1:8000/api/validate -H 'Content-Type: application/js
 ### Otherwise:
 ```
 {
-    "errors": [
-        "Error details..."
-    ],
-    "isValid": "False"
+    "error": {
+        "status": 422,
+        "error": "UNPROCESSABLE_ENTITY_EXCEPTION",
+        "description": "One or more fields raised validation errors",
+        "fields": {
+            "missing_key": "is a required property"
+        }
+    }
 }
 ```
 # DataProduct schema generation endpoint:
