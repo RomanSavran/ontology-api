@@ -103,7 +103,7 @@ def schema_generator(request):
 
     context_url = get_context_url_from_request_body(data)
 
-    schema['$id'] = context_url.replace("Context", "Schema")
+    schema['$id'] = context_url.replace("Context", "Schema")[:-1]
     schema['properties']['@context']['const'] = context_url
 
     nested_dict = NestedDict(deepcopy(schema))

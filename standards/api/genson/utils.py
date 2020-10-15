@@ -104,7 +104,6 @@ def sorted_nested_dict(data: dict):
         if isinstance(v, dict):
             if k != 'properties':
                 v = dict(sorted(v.items(), key=lambda pair: ORDER_OF_SORTING_KEYS.index(pair[0])))
-                bb = 1
             result[k] = sorted_nested_dict(v)
         else:
             result[k] = v
