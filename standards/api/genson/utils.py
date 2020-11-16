@@ -6,6 +6,7 @@ import json
 
 SCHEMA_OBJECT_VARIABLES = ('properties', 'items')
 SCHEMA_VARIABLES = ('description', 'title', 'type')
+ORDER_OF_SORTING_KEYS = ('$schema', '$id', 'type', 'const', 'title', 'description', 'required', 'items', 'properties')
 
 
 class NestedDict(dict):
@@ -90,3 +91,20 @@ def schema_path_id_generator(json_schema: json, nested_dict: NestedDict, id_path
         if id_path:
             if key not in SCHEMA_VARIABLES and id_path[-1] not in SCHEMA_OBJECT_VARIABLES:
                 id_path.pop(-1)
+
+
+def schema_sorted_first_level(data: dict) -> dict:
+    result = dict(sorted(data.items(), key=lambda pair: ORDER_OF_SORTING_KEYS.index(pair[0])))
+    return result
+
+
+def sorted_nested_dict(data: dict):
+    result = {}
+    for k, v in data.items():
+        if isinstance(v, dict):
+            if k != 'properties':
+                v = dict(sorted(v.items(), key=lambda pair: ORDER_OF_SORTING_KEYS.index(pair[0])))
+            result[k] = sorted_nested_dict(v)
+        else:
+            result[k] = v
+    return result
